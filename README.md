@@ -1,4 +1,4 @@
 ChessGame
 =========
 
-ChessGame
+A simple ChessGame.
