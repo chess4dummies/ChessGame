@@ -226,6 +226,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Game\View\Shader.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Game\View\Texture.cpp"
 				>
 			</File>
