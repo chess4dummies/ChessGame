@@ -194,47 +194,43 @@
 			Name="View"
 			>
 			<File
-				RelativePath=".\Board.cpp"
+				RelativePath="..\src\Game\View\Board.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Board.h"
+				RelativePath="..\src\Game\View\Board.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Common.h"
+				RelativePath="..\src\Game\View\Common.h"
 				>
 			</File>
 			<File
-				RelativePath=".\DrawElement.cpp"
+				RelativePath="..\src\Game\View\DrawElement.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\DrawElement.h"
+				RelativePath="..\src\Game\View\DrawElement.h"
 				>
 			</File>
 			<File
-				RelativePath=".\HelperFuncs.cpp"
+				RelativePath="..\src\Game\View\HelperFuncs.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\HelperFuncs.h"
+				RelativePath="..\src\Game\View\HelperFuncs.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Shader.cpp"
+				RelativePath="..\src\Game\View\Shader.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Shader.h"
+				RelativePath="..\src\Game\View\Texture.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Texture.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Texture.h"
+				RelativePath="..\src\Game\View\Texture.h"
 				>
 			</File>
 		</Filter>

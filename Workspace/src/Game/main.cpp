@@ -1,5 +1,5 @@
-#include "DrawElement.h"
-#include "Board.h"
+#include "view/DrawElement.h"
+#include "view/Board.h"
 
 using namespace View;
 bool once = false;
