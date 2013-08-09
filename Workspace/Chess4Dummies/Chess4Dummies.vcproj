@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\;.\src;.\src\"
+				AdditionalIncludeDirectories="..\;.\src;.\src\;.\src\Game;.\src\glm;.\src\Game\View;.;.\Chess4Dummies\;..\Workspace\Chess4Dummies\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -189,6 +189,54 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
+		</Filter>
+		<Filter
+			Name="View"
+			>
+			<File
+				RelativePath=".\Board.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Board.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\DrawElement.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DrawElement.h"
+				>
+			</File>
+			<File
+				RelativePath=".\HelperFuncs.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HelperFuncs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Shader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Shader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Texture.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Texture.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
