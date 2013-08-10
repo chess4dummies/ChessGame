@@ -222,6 +222,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\Game\View\Scene.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\Game\View\Scene.h"
+				>
+			</File>
+			<File
 				RelativePath="..\src\Game\View\Shader.cpp"
 				>
 			</File>

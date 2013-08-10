@@ -23,6 +23,8 @@ private:
 
     GLuint        _texID;
     unsigned char _texelData[TEX_WIDTH][TEX_HEIGHT][3];
+    static int    _texIDs;
+    int           _uniqeId;
 };
 
 }

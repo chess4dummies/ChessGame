@@ -5,8 +5,16 @@
 #include <string>
 #include <iostream>
 #include <cassert>
+#include <algorithm>
+#include <functional>
 
-const int TEX_WIDTH  = 256;
-const int TEX_HEIGHT = 256;
+#define TEX_WIDTH  256
+#define TEX_HEIGHT 256
 
+#define MAX_TEXTURES 10
+
+// #define  CHECK_GL_ERROR \{
+//                         \    GLenum err = glGetError();
+//                         \    assert( err == GL_NO_ERROR );
+//                         \}
 #endif

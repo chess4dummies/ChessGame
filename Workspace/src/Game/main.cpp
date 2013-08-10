@@ -1,23 +1,36 @@
 #include "view/DrawElement.h"
 #include "view/Board.h"
+#include "view/Scene.h"
 
 using namespace View;
 bool once = false;
 
-Board* b;
+Scene* scene;
 
 void initShaders()
 {
     DrawElement::init();
-    b = new Board;
-    b->createGeometry();
+    scene = new Scene;
+    //scene->drawScene();
+    scene->addDrawElement(DrawElement::BOARD);
 }
 
 void display()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    b->draw();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->drawScene();
     glutSwapBuffers();
+}
+
+void glInitialisations()
+{
+    glClearColor(1.0, 1.0, 0.0, 0.0);
+    glEnable(GL_DEPTH_TEST);
+}
+void idle()
+{
+    // no freeze. continuously render.
+    glutPostRedisplay();
 }
 
 int main(int argc, char *argv[])
@@ -28,6 +41,7 @@ int main(int argc, char *argv[])
     glutCreateWindow("Chess4Dummies");
 
     glutDisplayFunc(display);
+    glutIdleFunc(idle);
 
     if (glewInit())
     {
@@ -35,6 +49,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    glInitialisations();
     initShaders();
     glutMainLoop();
     return 0;

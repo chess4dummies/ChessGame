@@ -3,6 +3,8 @@
 
 #include "Shader.h"
 #include "Texture.h"
+#include "src/glm/glm.hpp"
+#include "Common.h"
 
 namespace View {
 
@@ -32,6 +34,18 @@ public:
     virtual void createGeometry() = 0;
 
     static void init();
+    static DrawElement* createDrawElement( const ePieceType piece ); // THIS IS NOT GOOD!!
+
+
+    // Used like a hack now.
+    void useShader()
+    {
+        _shader.use();
+    }
+    const Shader& getShader() const
+    {
+        return _shader;
+    }
 
 protected:
     static std::string _vertSrcArr[NUM_DRAWELEMS];
@@ -40,8 +54,8 @@ protected:
     GLuint      _vboID;
     Shader      _shader;
     ePieceType  _pieceType;
-    Texture*    _texture;
-
+    glm::mat4x4 _modelMatrix; // object coordinates -> world
+    std::vector<Texture*>    _textureList; // max 10 :P
 };
 }
 
