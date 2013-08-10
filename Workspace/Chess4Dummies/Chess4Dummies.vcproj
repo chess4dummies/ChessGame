@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\;.\src;.\src\;.\src\Game;.\src\glm;.\src\Game\View;.;.\Chess4Dummies\;..\Workspace\Chess4Dummies\"
+				AdditionalIncludeDirectories="..\;.\src;.\src\;.\src\Game;.\src\glm;.\src\Game\View;.;.\Chess4Dummies\;..\Workspace\Chess4Dummies\;.\src\glm\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
