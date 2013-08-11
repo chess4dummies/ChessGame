@@ -37,8 +37,7 @@ void Texture::createTexture(const char* filename)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TEX_WIDTH, TEX_HEIGHT,
                      0, GL_BGR_EXT, GL_UNSIGNED_BYTE, _texelData);
-        //glBindTexture(GL_TEXTURE_2D, 0);
-
+        glBindTexture(GL_TEXTURE_2D, 0);
         fclose(texFile);
     }
 }
@@ -54,6 +53,12 @@ void View::Texture::use() const
 {
     glActiveTexture(GL_TEXTURE0 + _uniqeId);
     glBindTexture(GL_TEXTURE_2D, _texID);
+}
+
+void View::Texture::unUse() const
+{
+    // Doing this every frame. Is this ok?!
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 int View::Texture::_texIDs = 0;

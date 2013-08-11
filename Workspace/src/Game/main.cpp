@@ -11,7 +11,7 @@ void initShaders()
 {
     DrawElement::init();
     scene = new Scene;
-    //scene->drawScene();
+    scene->addDrawElement(DrawElement::PAWN);
     scene->addDrawElement(DrawElement::BOARD);
 }
 
@@ -26,6 +26,7 @@ void glInitialisations()
 {
     glClearColor(1.0, 1.0, 0.0, 0.0);
     glEnable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST); //??
 }
 void idle()
 {

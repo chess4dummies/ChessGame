@@ -16,6 +16,9 @@
     <Filter Include="View">
       <UniqueIdentifier>{0dcbe06d-a0d4-49f9-b809-cb00ed3555ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="View\Pieces">
+      <UniqueIdentifier>{1746dd5f-1671-4eaf-acbe-75c90d68baa9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Game\main.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="..\src\Game\View\Texture.cpp">
       <Filter>View</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Pawn.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Game\View\Board.h">
@@ -61,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Game\View\Texture.h">
       <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Pawn.h">
+      <Filter>View\Pieces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

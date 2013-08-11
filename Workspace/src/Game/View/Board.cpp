@@ -20,21 +20,29 @@ void View::Board::draw()
       {
         _textureList[0]->use();
         _textureList[1]->use();
+
         _modelMatrix = glm::mat4x4(1.0); 
         _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, BOARD_TRANS));
         _modelMatrix = glm::rotate(_modelMatrix, BOARD_ROT, glm::vec3(1.0f, 0.0f, 0.0f));
         _modelMatrix = glm::scale(_modelMatrix, glm::vec3(BOARD_SCALE));
 
         GLint texture_location1 = glGetUniformLocation(_shader.getShaderID(), "tex_");
-        glUniform1i(texture_location1, 0);
+        glUniform1i(texture_location1, _textureList[0]->getGLTexID());
 
         GLint texture_location2 = glGetUniformLocation(_shader.getShaderID(), "nTex");
-        glUniform1i(texture_location2, 1);
+        glUniform1i(texture_location2, _textureList[1]->getGLTexID());
 
         GLint modelMatrixLoc = glGetUniformLocation(_shader.getShaderID(), "modelMatrix");
         glUniformMatrix4fv(modelMatrixLoc, 1, false, (float*)&_modelMatrix);
+       
         glBindBuffer(GL_ARRAY_BUFFER, _vboID);
+        glEnableVertexAttribArray(0);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+        glDisableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        _textureList[0]->unUse();
+        _textureList[1]->unUse();
       }
      
      // face right
@@ -89,6 +97,7 @@ void View::Board::draw()
 //           glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 //           glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
 //      }
+
 }
 
 void View::Board::createGeometry()
@@ -96,7 +105,7 @@ void View::Board::createGeometry()
     glGenBuffers(1, &_vboID);
     glBindBuffer(GL_ARRAY_BUFFER, _vboID);
 
-    const float boardSize = 0.75f;
+    const float boardSize = 1.0f;
     const float depth     = 0.0f;
     GLfloat geometry[] = {
          boardSize, boardSize, depth,
@@ -110,6 +119,8 @@ void View::Board::createGeometry()
     glBufferData(GL_ARRAY_BUFFER, sizeof(geometry), geometry, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 View::Board::~Board()

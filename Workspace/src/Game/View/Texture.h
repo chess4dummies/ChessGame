@@ -17,6 +17,12 @@ public:
     Texture( const char* fileName );
 
     void use() const;
+    void unUse() const;
+
+    const GLuint getGLTexID() const
+    {
+        return _uniqeId;
+    }
 
 private:
     void createTexture(const char* filename); // C stle IO used. So, const char* makes sense :D
