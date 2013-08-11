@@ -13,16 +13,17 @@ View::Board::Board()
     _textureList[1] = new Texture("data/board_bump.bmp");
 }
 
-static float trans = 90.0f;
 void View::Board::draw()
 {
-    //trans += 5.0f;
-     //face up
+    //trans += 0.15f;
+    //face up
       {
         _textureList[0]->use();
         _textureList[1]->use();
         _modelMatrix = glm::mat4x4(1.0); 
-        _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, -1.5f));
+        _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, BOARD_TRANS));
+        _modelMatrix = glm::rotate(_modelMatrix, BOARD_ROT, glm::vec3(1.0f, 0.0f, 0.0f));
+        _modelMatrix = glm::scale(_modelMatrix, glm::vec3(BOARD_SCALE));
 
         GLint texture_location1 = glGetUniformLocation(_shader.getShaderID(), "tex_");
         glUniform1i(texture_location1, 0);

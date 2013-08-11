@@ -1,11 +1,12 @@
 #include "Scene.h"
 #include <src/glm/gtc/matrix_transform.hpp>
+#include "Common.h"
 
 using namespace std;
 
 View::Scene::Scene()
 {
-    _projectionMatrix = glm::transpose( glm::perspective(45.0f, 1.0f ,1.0f ,100.0f) );
+    _projectionMatrix = glm::transpose( glm::perspective(FOV_Y, ASPECT_RATIO ,1.0f ,100.0f) );
 }
 
 View::Scene::Scene( const Scene& other )
@@ -31,7 +32,7 @@ void View::Scene::removeDrawElement( const glm::vec2& pos )
 
 }
 
-static float trans = -5.0f;
+static float trans = 45.0f;
 void View::Scene::drawScene()
 {
     // TRY THIS!!
@@ -43,11 +44,9 @@ void View::Scene::drawScene()
         (*itr)->useShader();
 
         _viewMatrix = glm::mat4x4(1.0);
-        _viewMatrix = glm::rotate(_viewMatrix, trans, glm::vec3(1.0f, 0.0f, 0.0f));
+        _viewMatrix = glm::rotate(_viewMatrix, -5.0f, glm::vec3(1.0f, 0.0f, 0.0f));
         //_viewMatrix = glm::transpose(_viewMatrix);
         
-        //trans += 2.0f;
-
         GLint viewMatrixLoc = glGetUniformLocation((*itr)->getShader().getShaderID(), "viewMatrix");
         glUniformMatrix4fv(viewMatrixLoc, 1, false, (float*)&_viewMatrix);
 
