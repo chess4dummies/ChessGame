@@ -8,7 +8,7 @@ namespace View {
 class Board : public View::DrawElement {
 public:
     // constructors
-    Board();
+    Board( const Position& pos );
     ~Board();
 
     virtual void draw();

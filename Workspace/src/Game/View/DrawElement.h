@@ -8,7 +8,19 @@
 
 namespace View {
 
-    // Abstract base class for all drawables. Pieces inherit from this
+// Offsets from board origin.
+struct Position 
+{
+    Position(int x, int y)
+    {
+        _x = x;
+        _y = y;
+    }
+    int _x;
+    int _y;
+};
+
+// Abstract base class for all drawables. Pieces inherit from this
 class DrawElement
 {
 public:
@@ -26,7 +38,7 @@ public:
         BOARD  = 7,
         NUM_DRAWELEMS
     };
-    DrawElement( const ePieceType pieceType );
+    DrawElement( const ePieceType pieceType, const Position& pos );
 
     virtual ~DrawElement();
     void operator = ( const DrawElement& other );
@@ -34,7 +46,7 @@ public:
     virtual void createGeometry() = 0;
 
     static void init();
-    static DrawElement* createDrawElement( const ePieceType piece ); // THIS IS NOT GOOD!!
+    static DrawElement* createDrawElement( const ePieceType piece, const View::Position& pos ); // THIS IS NOT GOOD!!
 
 
     // Used like a hack now.
@@ -51,6 +63,7 @@ protected:
     static std::string _vertSrcArr[NUM_DRAWELEMS];
     static std::string _fragSrcArr[NUM_DRAWELEMS];
 
+    Position    _position;
     GLuint      _vboID;
     Shader      _shader;
     ePieceType  _pieceType;

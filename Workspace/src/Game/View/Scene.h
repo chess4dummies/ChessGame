@@ -12,7 +12,7 @@ public:
    ~Scene();
     Scene( const Scene& other );
 
-    void addDrawElement( const DrawElement::ePieceType piece);
+    void addDrawElement( const DrawElement::ePieceType piece, const View::Position& pos);
     void removeDrawElement( const glm::vec2& pos );
     void drawScene(); // set up matrices, call draw on all elements.
 

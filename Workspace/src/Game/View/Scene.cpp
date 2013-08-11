@@ -19,9 +19,9 @@ View::Scene::~Scene()
     // clear all draw elements!
 }
 
-void View::Scene::addDrawElement( const DrawElement::ePieceType piece )
+void View::Scene::addDrawElement( const DrawElement::ePieceType piece, const View::Position& pos )
 {
-    DrawElement* drawElem = DrawElement::createDrawElement(piece);
+    DrawElement* drawElem = DrawElement::createDrawElement(piece, pos);
     assert(drawElem);
     drawElem->createGeometry();
     _drawElementList.push_back(drawElem);

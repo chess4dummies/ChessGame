@@ -11,8 +11,16 @@ void initShaders()
 {
     DrawElement::init();
     scene = new Scene;
-    scene->addDrawElement(DrawElement::PAWN);
-    scene->addDrawElement(DrawElement::BOARD);
+    const View::Position p1(2, 2);
+    scene->addDrawElement(DrawElement::PAWN, p1 );
+
+    const View::Position p2(4, 4);
+    scene->addDrawElement(DrawElement::PAWN, p2 );
+    
+    const View::Position p3(1, 5);
+    scene->addDrawElement(DrawElement::PAWN, p3 );    
+    
+    scene->addDrawElement(DrawElement::BOARD, p3);
 }
 
 void display()

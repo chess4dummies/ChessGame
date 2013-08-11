@@ -8,12 +8,14 @@ using namespace View;
 std::string View::DrawElement::_fragSrcArr[DrawElement::NUM_DRAWELEMS];
 std::string View::DrawElement::_vertSrcArr[DrawElement::NUM_DRAWELEMS];
 
-DrawElement::DrawElement()
+DrawElement::DrawElement():
+_position(0, 0)
 {
 
 }
 
-DrawElement::DrawElement( const DrawElement& other )
+DrawElement::DrawElement( const DrawElement& other ):
+_position(0, 0)
 {
 
 }
@@ -28,9 +30,11 @@ DrawElement::~DrawElement()
 
 }
 
-DrawElement::DrawElement( const ePieceType pieceType ):
-_shader( _vertSrcArr[pieceType], _fragSrcArr[pieceType] )
+DrawElement::DrawElement( const ePieceType pieceType, const Position& pos ):
+_shader( _vertSrcArr[pieceType], _fragSrcArr[pieceType] ),
+_position(0, 0)
 {
+    _position = pos;
     _shader.init();
     _pieceType = pieceType;
 }
@@ -208,14 +212,14 @@ void View::DrawElement::init()
     /////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-DrawElement* View::DrawElement::createDrawElement( const ePieceType piece )
+DrawElement* View::DrawElement::createDrawElement( const ePieceType piece, const View::Position& pos )
 {
     switch (piece)
     {
     case BOARD:
-        return new Board;
+        return new Board(pos);
     case PAWN:
-        return new Pawn;
+        return new Pawn(pos);
     }
     return NULL;
 }

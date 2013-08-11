@@ -4,8 +4,8 @@
 
 using namespace View;
 
-View::Board::Board()
-:DrawElement( DrawElement::BOARD )
+View::Board::Board( const Position& pos )
+:DrawElement( DrawElement::BOARD, pos )
 {
     _textureList.reserve(MAX_TEXTURES);
     _textureList.resize(MAX_TEXTURES);
@@ -13,9 +13,12 @@ View::Board::Board()
     _textureList[1] = new Texture("data/board_bump.bmp");
 }
 
+static float rot = BOARD_ROT;
 void View::Board::draw()
 {
-    //trans += 0.15f;
+#ifdef ROTATION_ON
+    rot += 0.25f;
+#endif
     //face up
       {
         _textureList[0]->use();
@@ -23,7 +26,7 @@ void View::Board::draw()
 
         _modelMatrix = glm::mat4x4(1.0); 
         _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, BOARD_TRANS));
-        _modelMatrix = glm::rotate(_modelMatrix, BOARD_ROT, glm::vec3(1.0f, 0.0f, 0.0f));
+        _modelMatrix = glm::rotate(_modelMatrix, rot, glm::vec3(1.0f, 0.0f, 0.0f));
         _modelMatrix = glm::scale(_modelMatrix, glm::vec3(BOARD_SCALE));
 
         GLint texture_location1 = glGetUniformLocation(_shader.getShaderID(), "tex_");

@@ -9,7 +9,7 @@ namespace View {
 class Pawn : public View::DrawElement
 {
 public:
-    Pawn();
+    Pawn( const View::Position& pos );
     ~Pawn();
 
     virtual void draw();
