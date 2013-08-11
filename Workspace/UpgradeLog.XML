@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Chess4Dummies">
+</Property><Property Name="Solution File" Value="H:\gitrepositories\ChessGame\Workspace\Chess4Dummies.sln">
+</Property><Property Name="Date" Value="Sunday, August 11, 2013">
+</Property><Property Name="Time" Value="12:14 PM">
+</Property></Properties><Event ErrorLevel="0" Project="Chess4Dummies" Source="Chess4Dummies\Chess4Dummies.vcproj" Description="Converting project file 'H:\gitrepositories\ChessGame\Workspace\Chess4Dummies\Chess4Dummies.vcproj'.">
+</Event><Event ErrorLevel="1" Project="Chess4Dummies" Source="Chess4Dummies\Chess4Dummies.vcproj" Description="VCWebServiceProxyGeneratorTool is no longer supported. The tool has been removed from your project settings.">
+</Event><Event ErrorLevel="0" Project="Chess4Dummies" Source="Chess4Dummies\Chess4Dummies.vcproj" Description="Done converting to new project file 'H:\gitrepositories\ChessGame\Workspace\Chess4Dummies\Chess4Dummies.vcxproj'.">
+</Event><Event ErrorLevel="3" Project="Chess4Dummies" Source="Chess4Dummies\Chess4Dummies.vcproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Chess4Dummies.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Chess4Dummies.sln" Description="Converted">
+</Event></UpgradeLog>
