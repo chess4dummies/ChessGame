@@ -69,8 +69,8 @@ void View::DrawElement::init()
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
-        "   float nDotL = dot(col2.xyz, vec3(1.0, 1.0, 0.0));\n"
-        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   float nDotL = dot(col2.xyz, vec3(1.0, 0.0, 0.0));\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
         "   if (nDotL != 0.0)col = col1 * lambert; else col = col1;\n"
         "}\n";
     ;
