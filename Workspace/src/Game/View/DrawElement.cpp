@@ -6,8 +6,8 @@
 using namespace View;
 
 
-std::string View::DrawElement::_fragSrcArr[DrawElement::NUM_DRAWELEMS];
-std::string View::DrawElement::_vertSrcArr[DrawElement::NUM_DRAWELEMS];
+std::string View::DrawElement::_fragSrcArr[View::NUM_DRAWELEMS];
+std::string View::DrawElement::_vertSrcArr[View::NUM_DRAWELEMS];
 
 DrawElement::DrawElement():
 _position(0, 0),
@@ -48,7 +48,7 @@ void View::DrawElement::init()
     /////////////////////////////////////////////////////////////////////////////////////////////////
                                             // BOARD:
     /////////////////////////////////////////////////////////////////////////////////////////////////
-    _vertSrcArr[DrawElement::BOARD] =
+    _vertSrcArr[View::BOARD] =
         "#version 330\n"
         "layout(location = 0) in vec3 pos;\n"
         "out vec2 texcoord;\n"
@@ -71,7 +71,7 @@ void View::DrawElement::init()
         "}\n";
     ;
 
-    _fragSrcArr[DrawElement::BOARD] = 
+    _fragSrcArr[View::BOARD] = 
         "#version 330\n"
         "layout(location = 0) out vec4 col;\n"
         "in vec2 texcoord;\n"
@@ -92,7 +92,7 @@ void View::DrawElement::init()
     /////////////////////////////////////////////////////////////////////////////////////////////////
                                             // PAWN:
     /////////////////////////////////////////////////////////////////////////////////////////////////
-     _vertSrcArr[DrawElement::PAWN] =
+     _vertSrcArr[View::PAWN] =
         "#version 330\n"
         "layout(location = 0) in vec3 pos;\n"
         "out vec2 texcoord;\n"
@@ -198,7 +198,7 @@ void View::DrawElement::init()
         "}\n";
     ;
 
-    _fragSrcArr[DrawElement::PAWN] = 
+    _fragSrcArr[View::PAWN] = 
         "#version 330\n"
         "layout(location = 0) out vec4 col;\n"
         "in vec2 texcoord;\n"
@@ -220,7 +220,7 @@ void View::DrawElement::init()
     /////////////////////////////////////////////////////////////////////////////////////////////////
                                             // MARKER:
     /////////////////////////////////////////////////////////////////////////////////////////////////
-     _vertSrcArr[DrawElement::MARKER] =
+     _vertSrcArr[View::MARKER] =
         "#version 330\n"
         "layout(location = 0) in vec3 pos;\n"
         "out vec2 texcoord;\n"
@@ -291,7 +291,7 @@ void View::DrawElement::init()
         "}\n";
     ;
 
-    _fragSrcArr[DrawElement::MARKER] = 
+    _fragSrcArr[View::MARKER] = 
         "#version 330\n"
         "layout(location = 0) out vec4 col;\n"
         "void main()"

@@ -14,19 +14,6 @@ class DrawElement
 public:
     DrawElement();
     DrawElement( const DrawElement& other );
-
-    enum ePieceType
-    {
-        QUEEN  = 1,
-        ROOK   = 2,
-        BISHOP = 3,
-        KNIGHT = 4,
-        PAWN   = 5,
-        KING   = 6,
-        BOARD  = 7,
-        MARKER = 8,
-        NUM_DRAWELEMS
-    };
     DrawElement( const ePieceType pieceType, const Position& pos );
 
     virtual ~DrawElement();
@@ -56,6 +43,11 @@ public:
     const Position& getPosition() const
     {
         return _position;
+    }
+
+    const ePieceType getType() const
+    {
+        return _pieceType;
     }
 
 protected:

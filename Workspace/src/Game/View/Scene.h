@@ -13,7 +13,7 @@ public:
    ~Scene();
     Scene( const Scene& other );
 
-    void addDrawElement( const DrawElement::ePieceType piece, const View::Position& pos);
+    void addDrawElement( const View::ePieceType piece, const View::Position& pos);
     void removeDrawElement( const glm::vec2& pos );
     void drawScene(); // set up matrices, call draw on all elements.
 
@@ -21,6 +21,28 @@ public:
     void drawElements( DrawElement* d) const;
 
     void highlightPosition( const int x, const int y );
+
+    PieceInformation getPieceInformation( const int x, const int y );
+
+
+    class PieceFunctor
+    {
+    public:
+        PieceFunctor(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
+
+        bool operator() (const DrawElement* dr)
+        {
+            return (dr->getPosition()._x == _x) && (dr->getPosition()._y == _y);
+        }
+
+    private:
+        int _x;
+        int _y;
+    };
 
 private:
     void operator = ( const Scene& other ); // non-copyable

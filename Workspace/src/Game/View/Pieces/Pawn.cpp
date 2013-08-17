@@ -5,7 +5,7 @@
 using namespace View;
 
 View::Pawn::Pawn( const View::Position& pos )
-:DrawElement( DrawElement::PAWN, pos )
+:DrawElement( View::PAWN, pos )
 {
     _textureList.reserve(MAX_TEXTURES);
     _textureList.resize(MAX_TEXTURES);

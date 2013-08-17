@@ -5,7 +5,7 @@
 using namespace View;
 
 View::Board::Board( const Position& pos )
-:DrawElement( DrawElement::BOARD, pos )
+:DrawElement( View::BOARD, pos )
 {
     _textureList.reserve(MAX_TEXTURES);
     _textureList.resize(MAX_TEXTURES);

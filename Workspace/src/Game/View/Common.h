@@ -45,13 +45,40 @@ namespace View {
 
 struct Position 
 {
-    Position(int x, int y)
+    Position( const int x, const int y)
     {
         _x = x;
         _y = y;
     }
     int _x;
     int _y;
+};
+
+
+enum ePieceType
+{
+    QUEEN  = 1,
+    ROOK   = 2,
+    BISHOP = 3,
+    KNIGHT = 4,
+    PAWN   = 5,
+    KING   = 6,
+    BOARD  = 7,
+    MARKER = 8,
+    NUM_DRAWELEMS
+};
+
+
+struct PieceInformation
+{
+    PieceInformation( const ePieceType piece, const Position& pos ):
+    _pos(pos._x, pos._y)
+    {
+        _piece = piece;
+    }
+
+    ePieceType _piece;
+    Position   _pos;
 };
 
 }

@@ -5,7 +5,7 @@
 using namespace View;
 
 View::Marker::Marker( const View::Position& pos )
-:DrawElement( DrawElement::MARKER, pos )
+:DrawElement( View::MARKER, pos )
 {
 }
 

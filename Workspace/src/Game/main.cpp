@@ -5,15 +5,29 @@
 using namespace View;
 bool once = false;
 
+//////////////////////////////////////////////////////////////////////////////////////
+////////////////// Global Data. Only for experimenting and testing! //////////////////
+std::string strList[] = 
+{
+    "INVALID", // the marker. we don't pick it. So, adding dummy here.
+    "QUEEN",
+    "ROOK",
+    "BISHOP",
+    "KNIGHT",
+    "PAWN",
+    "KING" 
+};
+
 int xPos = 0, yPos = 0;
 Scene* scene;
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
-void initShaders()
+
+void makeBoard()
 {
     DrawElement::init();
     scene = new Scene;
-    const View::Position p1(0, 0);
-    scene->addDrawElement(DrawElement::PAWN, p1 );
 
     const View::Position p2(4, 4);
     //scene->addDrawElement(DrawElement::PAWN, p2 );
@@ -21,14 +35,22 @@ void initShaders()
     const View::Position p3(1, 5);
     //scene->addDrawElement(DrawElement::PAWN, p3 );    
 
+    // Player 1
     for (int i = 0; i < 8; i++)
     {
-        const View::Position p4(i, 0);
-        scene->addDrawElement(DrawElement::PAWN, p4 ); 
+        const View::Position p(i, 1);
+        scene->addDrawElement(View::PAWN, p ); 
+    }
+
+    // Player 2
+    for (int i = 0; i < 8; i++)
+    {
+        const View::Position p(i, 6);
+        scene->addDrawElement(View::PAWN, p ); 
     }    
 
     scene->highlightPosition(xPos, yPos);
-    scene->addDrawElement(DrawElement::BOARD, p3);
+    scene->addDrawElement(View::BOARD, p3);
 }
 
 void display()
@@ -72,7 +94,9 @@ void keyb( unsigned char c, int , int )
         yPos = yPos == 0 ? 8 : yPos;
         yPos = (yPos - 1) % 8;
         break;
-    default:
+    case 't':
+        PieceInformation p( scene->getPieceInformation( xPos, yPos ) );
+        std::cout << "Selected: " << strList[p._piece] << std::endl;
         break;
     }
     scene->highlightPosition(xPos, yPos);
@@ -96,7 +120,7 @@ int main(int argc, char *argv[])
     }
 
     glInitialisations();
-    initShaders();
+    makeBoard();
     glutMainLoop();
     return 0;
 }

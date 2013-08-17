@@ -10,7 +10,7 @@ View::Scene::Scene()
     _projectionMatrix = glm::transpose( glm::perspective(FOV_Y, ASPECT_RATIO ,1.0f ,100.0f) );
 
     const View::Position p(1, 1);
-    addDrawElement( DrawElement::MARKER, p );
+    addDrawElement( View::MARKER, p );
 }
 
 View::Scene::Scene( const Scene& other )
@@ -23,7 +23,7 @@ View::Scene::~Scene()
     // clear all draw elements!
 }
 
-void View::Scene::addDrawElement( const DrawElement::ePieceType piece, const View::Position& pos )
+void View::Scene::addDrawElement( const View::ePieceType piece, const View::Position& pos )
 {
     DrawElement* drawElem = DrawElement::createDrawElement(piece, pos);
     assert(drawElem);
@@ -86,4 +86,17 @@ void View::Scene::highlightPosition( const int x, const int y )
 {
     // Update to (x, y)
     _drawElementList[0]->updatePosition(x, y); // DE[0] is always marker!
+}
+
+
+View::PieceInformation View::Scene::getPieceInformation( const int x, const int y )
+{
+    // @todo: try to remove warning.
+    vector< View::DrawElement* >::iterator itr = find_if( _drawElementList.begin()+1, _drawElementList.end(), PieceFunctor(x, y) );
+    if ( itr != _drawElementList.end() )
+    {
+        // we have a valid piece.
+        PieceInformation p( (*itr)->getType(), Position(x, y) );
+        return p;
+    }
 }
