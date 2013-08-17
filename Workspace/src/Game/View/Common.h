@@ -69,19 +69,26 @@ enum ePieceType
     NUM_DRAWELEMS
 };
 
+enum ePlayer 
+{
+    PLAYER_1,
+    PLAYER_2
+};
 
 struct PieceInformation
 {
-    PieceInformation( const ePieceType piece, const Position& pos ):
+    PieceInformation( const ePieceType piece, const Position& pos, const ePlayer player ):
     _pos(pos._x, pos._y)
     {
-        _piece = piece;
+        _piece  = piece;
+        _player = player;
     }
 
+    ePlayer    _player;
     ePieceType _piece;
     Position   _pos;
 };
 
-}
 
+}
 #endif

@@ -96,6 +96,22 @@ void View::DrawElement::checkIfHighlighted()
     glUniform1f(highlightLoc, highlight);  
 }
 
+void View::DrawElement::setPlayerColor()
+{
+    if ( _player == PLAYER_1) 
+    {
+        float col[] = {1.0, 1.0, 1.0, 1.0};
+        GLint highlightLoc = glGetUniformLocation(_shader.getShaderID(), "playerCol");
+        glUniform4f(highlightLoc, col[0], col[1], col[2], col[3]);  
+    }
+    else
+    {
+        float col[] = {0.0, 1.0, 0.0, 1.0};
+        GLint highlightLoc = glGetUniformLocation(_shader.getShaderID(), "playerCol");
+        glUniform4f(highlightLoc, col[0], col[1], col[2], col[3]);
+    } 
+}
+
 
 // Shaders:
 void View::DrawElement::init()
@@ -260,13 +276,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"        
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,13 +489,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"        
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -599,13 +617,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"        
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -726,13 +745,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"        
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -853,13 +873,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -980,13 +1001,14 @@ void View::DrawElement::init()
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
         "uniform float highlight;\n"
+        "uniform vec4 playerCol;\n"
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0) * playerCol;\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////

@@ -50,9 +50,20 @@ public:
         return _pieceType;
     }
 
+    void setPlayer(const ePlayer player)
+    {
+        _player = player;
+    }
+
+    const ePlayer getPlayer() const
+    {
+        return _player;
+    }
+
 protected:
     // Common to everyone. So, putting in base class.
     void checkIfHighlighted();
+    void setPlayerColor();
 
     static std::string _vertSrcArr[NUM_DRAWELEMS];
     static std::string _fragSrcArr[NUM_DRAWELEMS];
@@ -64,6 +75,7 @@ protected:
     ePieceType  _pieceType;
     glm::mat4x4 _modelMatrix; // object coordinates -> world
     std::vector<Texture*>    _textureList; // max 10 :P
+    ePlayer     _player;
 };
 }
 

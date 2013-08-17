@@ -2,3 +2,5 @@
    What is the best way to do that? If its possible, the marker can be in DE list
 
 2) const_cast<DrawElement*>(dr)->setHighlighted(); 
+
+3) getPlayer(), setPlayer(). Are getters/setters needed here? We're not encapsulating anything here right?

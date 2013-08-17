@@ -10,7 +10,7 @@ View::Scene::Scene()
     _projectionMatrix = glm::transpose( glm::perspective(FOV_Y, ASPECT_RATIO ,1.0f ,100.0f) );
 
     const View::Position p(1, 1);
-    addDrawElement( View::MARKER, p );
+    addDrawElement( View::MARKER, p, PLAYER_1 );
 }
 
 View::Scene::Scene( const Scene& other )
@@ -23,9 +23,10 @@ View::Scene::~Scene()
     // clear all draw elements!
 }
 
-void View::Scene::addDrawElement( const View::ePieceType piece, const View::Position& pos )
+void View::Scene::addDrawElement( const View::ePieceType piece, const View::Position& pos, const ePlayer player )
 {
     DrawElement* drawElem = DrawElement::createDrawElement(piece, pos);
+    drawElem->setPlayer(player);
     assert(drawElem);
     drawElem->createGeometry();
     _drawElementList.push_back(drawElem);
@@ -96,7 +97,7 @@ View::PieceInformation View::Scene::getPieceInformation( const int x, const int 
     if ( itr != _drawElementList.end() )
     {
         // we have a valid piece.
-        PieceInformation p( (*itr)->getType(), Position(x, y) );
+        PieceInformation p( (*itr)->getType(), Position(x, y), (*itr)->getPlayer() );
         return p;
     }
 }

@@ -51,6 +51,7 @@ void View::Bishop::draw()
     glDisableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    setPlayerColor();
     checkIfHighlighted();
 
     _textureList[0]->unUse();
