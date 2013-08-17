@@ -1,6 +1,7 @@
 #include "DrawElement.h"
 #include "Board.h"
 #include "Pieces/Pawn.h"
+#include "Pieces/Marker.h"
 
 using namespace View;
 
@@ -9,13 +10,15 @@ std::string View::DrawElement::_fragSrcArr[DrawElement::NUM_DRAWELEMS];
 std::string View::DrawElement::_vertSrcArr[DrawElement::NUM_DRAWELEMS];
 
 DrawElement::DrawElement():
-_position(0, 0)
+_position(0, 0),
+_isHighlighted(false)
 {
 
 }
 
 DrawElement::DrawElement( const DrawElement& other ):
-_position(0, 0)
+_position(0, 0),
+_isHighlighted(false)
 {
 
 }
@@ -32,7 +35,8 @@ DrawElement::~DrawElement()
 
 DrawElement::DrawElement( const ePieceType pieceType, const Position& pos ):
 _shader( _vertSrcArr[pieceType], _fragSrcArr[pieceType] ),
-_position(0, 0)
+_position(0, 0),
+_isHighlighted(false)
 {
     _position = pos;
     _shader.init();
@@ -200,13 +204,99 @@ void View::DrawElement::init()
         "in vec2 texcoord;\n"
         "uniform sampler2D tex_;\n"
         "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
         "void main()"
         "{\n"
         "   vec4 col1 = texture(tex_, texcoord);\n"
         "   vec4 col2 = texture(nTex, texcoord);\n"
         "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
         "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
-        "   col = col1 * lambert;\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // MARKER:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[DrawElement::MARKER] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[6] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[DrawElement::MARKER] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "void main()"
+        "{\n"
+        "   col = vec4(1.0, 0.0, 0.0, 1.0);\n"
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,7 +310,31 @@ DrawElement* View::DrawElement::createDrawElement( const ePieceType piece, const
         return new Board(pos);
     case PAWN:
         return new Pawn(pos);
+    case MARKER:
+        return new Marker(pos);
     }
     return NULL;
 }
 
+void View::DrawElement::updatePosition(const int x, const int y)
+{
+    _position._x = x;
+    _position._y = y;
+}
+
+void View::DrawElement::setHighlighted()
+{
+    _isHighlighted = true;
+}
+
+void View::DrawElement::setUnHighlighted()
+{
+    _isHighlighted = false;
+}
+
+void View::DrawElement::checkIfHighlighted()
+{
+    GLfloat highlight = (_isHighlighted) ? HIGHLIGHT_ON : HIGHLIGHT_OFF;
+    GLint highlightLoc = glGetUniformLocation(_shader.getShaderID(), "highlight");
+    glUniform1f(highlightLoc, highlight);  
+}

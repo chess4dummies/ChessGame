@@ -23,9 +23,16 @@
 #define BOARD_SIZE     3.3f * 0.75f
 #define PIECE_SIZE     (3.3f * 0.75f * 0.75f) / (4.0f) // 95% of each block
 #define PIECE_PLACE    -BOARD_SIZE, -BOARD_SIZE+PIECE_SIZE, BOARD_TRANS/* + PIECE_SIZE*/
-#define PIECE_OFFSET   (PIECE_SIZE + PIECE_SIZE / 2.0f)
+
 #define PIECE_Y_OFFSET (PIECE_SIZE + PIECE_SIZE)
 #define PIECE_Z_OFFSET BOARD_TRANS+PIECE_SIZE/2.0f
+
+#define OFF_ST (3.3f * 0.75f / 64.0f)
+#define PIECE_OFFSET   (3.3f * 0.75f / 4.0f)
+
+
+#define HIGHLIGHT_ON     1.0f
+#define HIGHLIGHT_OFF    0.5f
 
 //#define ROTATION_ON
 
@@ -33,4 +40,20 @@
 //                         \    GLenum err = glGetError();
 //                         \    assert( err == GL_NO_ERROR );
 //                         \}
+
+namespace View {
+
+struct Position 
+{
+    Position(int x, int y)
+    {
+        _x = x;
+        _y = y;
+    }
+    int _x;
+    int _y;
+};
+
+}
+
 #endif

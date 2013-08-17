@@ -96,6 +96,7 @@
     <ClCompile Include="..\src\Game\View\Board.cpp" />
     <ClCompile Include="..\src\Game\View\DrawElement.cpp" />
     <ClCompile Include="..\src\Game\View\HelperFuncs.cpp" />
+    <ClCompile Include="..\src\Game\View\Pieces\Marker.cpp" />
     <ClCompile Include="..\src\Game\View\Pieces\Pawn.cpp" />
     <ClCompile Include="..\src\Game\View\Scene.cpp" />
     <ClCompile Include="..\src\Game\View\Shader.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="..\src\Game\View\Common.h" />
     <ClInclude Include="..\src\Game\View\DrawElement.h" />
     <ClInclude Include="..\src\Game\View\HelperFuncs.h" />
+    <ClInclude Include="..\src\Game\View\Pieces\Marker.h" />
     <ClInclude Include="..\src\Game\View\Pieces\Pawn.h" />
     <ClInclude Include="..\src\Game\View\Scene.h" />
     <ClInclude Include="..\src\Game\View\Shader.h" />

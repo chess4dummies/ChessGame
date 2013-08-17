@@ -1,0 +1,4 @@
+1) We have a list of pointers of derived class. I need to call some function only for a particular type.
+   What is the best way to do that? If its possible, the marker can be in DE list
+
+2) const_cast<DrawElement*>(dr)->setHighlighted(); 

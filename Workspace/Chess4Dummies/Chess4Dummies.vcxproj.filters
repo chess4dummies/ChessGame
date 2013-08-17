@@ -45,6 +45,9 @@
     <ClCompile Include="..\src\Game\View\Pieces\Pawn.cpp">
       <Filter>View\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Marker.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Game\View\Board.h">
@@ -69,6 +72,9 @@
       <Filter>View</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Game\View\Pieces\Pawn.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Marker.h">
       <Filter>View\Pieces</Filter>
     </ClInclude>
   </ItemGroup>
