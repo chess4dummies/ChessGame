@@ -1,5 +1,11 @@
 #include "DrawElement.h"
+
 #include "Board.h"
+#include "Pieces/Bishop.h"
+#include "Pieces/Queen.h"
+#include "Pieces/Knight.h"
+#include "Pieces/Rook.h"
+#include "Pieces/King.h"
 #include "Pieces/Pawn.h"
 #include "Pieces/Marker.h"
 
@@ -43,6 +49,55 @@ _isHighlighted(false)
     _pieceType = pieceType;
 }
 
+DrawElement* View::DrawElement::createDrawElement( const ePieceType piece, const View::Position& pos )
+{
+    switch (piece)
+    {
+    case BOARD:
+        return new Board(pos);
+    case PAWN:
+        return new Pawn(pos);
+    case MARKER:
+        return new Marker(pos);
+    case KING:
+        return new King(pos);
+    case QUEEN:
+        return new Queen(pos);
+    case KNIGHT:
+        return new Knight(pos);
+    case BISHOP:
+        return new Bishop(pos);
+    case ROOK:
+        return new Rook(pos);
+    }
+    return NULL;
+}
+
+void View::DrawElement::updatePosition(const int x, const int y)
+{
+    _position._x = x;
+    _position._y = y;
+}
+
+void View::DrawElement::setHighlighted()
+{
+    _isHighlighted = true;
+}
+
+void View::DrawElement::setUnHighlighted()
+{
+    _isHighlighted = false;
+}
+
+void View::DrawElement::checkIfHighlighted()
+{
+    GLfloat highlight = (_isHighlighted) ? HIGHLIGHT_ON : HIGHLIGHT_OFF;
+    GLint highlightLoc = glGetUniformLocation(_shader.getShaderID(), "highlight");
+    glUniform1f(highlightLoc, highlight);  
+}
+
+
+// Shaders:
 void View::DrawElement::init()
 {
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -300,41 +355,640 @@ void View::DrawElement::init()
         "}\n";
     ;
     /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // KING:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[View::KING] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[36] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[View::KING] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "in vec2 texcoord;\n"
+        "uniform sampler2D tex_;\n"
+        "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
+        "void main()"
+        "{\n"
+        "   vec4 col1 = texture(tex_, texcoord);\n"
+        "   vec4 col2 = texture(nTex, texcoord);\n"
+        "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // QUEEN:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[View::QUEEN] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[36] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[View::QUEEN] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "in vec2 texcoord;\n"
+        "uniform sampler2D tex_;\n"
+        "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
+        "void main()"
+        "{\n"
+        "   vec4 col1 = texture(tex_, texcoord);\n"
+        "   vec4 col2 = texture(nTex, texcoord);\n"
+        "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // ROOK:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[View::ROOK] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[36] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[View::ROOK] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "in vec2 texcoord;\n"
+        "uniform sampler2D tex_;\n"
+        "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
+        "void main()"
+        "{\n"
+        "   vec4 col1 = texture(tex_, texcoord);\n"
+        "   vec4 col2 = texture(nTex, texcoord);\n"
+        "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // BISHOP:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[View::BISHOP] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[36] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[View::BISHOP] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "in vec2 texcoord;\n"
+        "uniform sampler2D tex_;\n"
+        "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
+        "void main()"
+        "{\n"
+        "   vec4 col1 = texture(tex_, texcoord);\n"
+        "   vec4 col2 = texture(nTex, texcoord);\n"
+        "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // KNIGHT:
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+     _vertSrcArr[View::KNIGHT] =
+        "#version 330\n"
+        "layout(location = 0) in vec3 pos;\n"
+        "out vec2 texcoord;\n"
+        "uniform mat4 modelMatrix;\n"
+        "uniform mat4 viewMatrix;\n"
+        "uniform mat4 projMatrix;\n"
+        "  \n"
+        "const vec3 vertData[36] = vec3[]\n"
+        "(\n"
+        "   vec3( 0.0,  0.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  0.0, 0.0),\n"
+        "   vec3( 1.0,  1.0, 0.0),\n"
+        "   vec3( 0.0,  1.0, 0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+
+        "   vec3( 1.0,  0.0,  0.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  0.0,  0.0),\n"
+
+        "   vec3( 0.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0,  0.0),\n"
+        "   vec3( 0.0,  1.0,  0.0),\n"
+
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 0.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 1.0,  1.0, -1.0),\n"
+        "   vec3( 0.0,  0.0, -1.0),\n"
+        "   vec3( 1.0,  0.0, -1.0)\n"
+
+        ");\n"
+        "  \n"
+        "const vec2 data[36] = vec2[]\n"
+        "(\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+
+        "   vec2( 0.0,  0.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0),\n"
+
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 1.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 0.0,  1.0),\n"
+        "   vec2( 1.0,  0.0),\n"
+        "   vec2( 0.0,  0.0)\n"
+
+        ");\n"
+        "void main()\n"
+        "{\n"
+        "   gl_Position = ( projMatrix * viewMatrix * modelMatrix * vec4(vertData[gl_VertexID], 1.0) );\n"
+        "   texcoord = data[gl_VertexID];"
+        "}\n";
+    ;
+
+    _fragSrcArr[View::KNIGHT] = 
+        "#version 330\n"
+        "layout(location = 0) out vec4 col;\n"
+        "in vec2 texcoord;\n"
+        "uniform sampler2D tex_;\n"
+        "uniform sampler2D nTex;\n"
+        "uniform float highlight;\n"
+        "void main()"
+        "{\n"
+        "   vec4 col1 = texture(tex_, texcoord);\n"
+        "   vec4 col2 = texture(nTex, texcoord);\n"
+        "   float nDotL = dot( normalize(col2.xyz), normalize(vec3(1.0, 1.0, 0.0)) );\n"
+        "   vec4 lambert = vec4(1.0, 1.0, 1.0, 1.0) * max (nDotL, 0.0);\n"
+        "   col = col1 * lambert * vec4(highlight, highlight, highlight, 1.0);\n"
+        "}\n";
+    ;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
-DrawElement* View::DrawElement::createDrawElement( const ePieceType piece, const View::Position& pos )
-{
-    switch (piece)
-    {
-    case BOARD:
-        return new Board(pos);
-    case PAWN:
-        return new Pawn(pos);
-    case MARKER:
-        return new Marker(pos);
-    }
-    return NULL;
-}
-
-void View::DrawElement::updatePosition(const int x, const int y)
-{
-    _position._x = x;
-    _position._y = y;
-}
-
-void View::DrawElement::setHighlighted()
-{
-    _isHighlighted = true;
-}
-
-void View::DrawElement::setUnHighlighted()
-{
-    _isHighlighted = false;
-}
-
-void View::DrawElement::checkIfHighlighted()
-{
-    GLfloat highlight = (_isHighlighted) ? HIGHLIGHT_ON : HIGHLIGHT_OFF;
-    GLint highlightLoc = glGetUniformLocation(_shader.getShaderID(), "highlight");
-    glUniform1f(highlightLoc, highlight);  
-}

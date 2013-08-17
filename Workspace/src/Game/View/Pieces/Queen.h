@@ -1,16 +1,16 @@
-#ifndef __MARKER__
-#define __MARKER__
+#ifndef __QUEEN__
+#define __QUEEN__
 
 #include "Common.h"
 #include "DrawElement.h"
 
 namespace View {
 
-class Marker : public View::DrawElement
+class Queen : public View::DrawElement
 {
 public:
-    Marker( const View::Position& pos );
-    ~Marker();
+    Queen( const View::Position& pos );
+    ~Queen();
 
     virtual void draw();
     virtual void createGeometry();

@@ -48,6 +48,21 @@
     <ClCompile Include="..\src\Game\View\Pieces\Marker.cpp">
       <Filter>View\Pieces</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Queen.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\King.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Rook.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Bishop.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Game\View\Pieces\Knight.cpp">
+      <Filter>View\Pieces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Game\View\Board.h">
@@ -75,6 +90,21 @@
       <Filter>View\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Game\View\Pieces\Marker.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Queen.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Rook.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Bishop.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\Knight.h">
+      <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\View\Pieces\King.h">
       <Filter>View\Pieces</Filter>
     </ClInclude>
   </ItemGroup>

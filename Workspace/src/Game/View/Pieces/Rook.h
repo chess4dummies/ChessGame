@@ -1,16 +1,16 @@
-#ifndef __MARKER__
-#define __MARKER__
+#ifndef __ROOK__
+#define __ROOK__
 
 #include "Common.h"
 #include "DrawElement.h"
 
 namespace View {
 
-class Marker : public View::DrawElement
+class Rook : public View::DrawElement
 {
 public:
-    Marker( const View::Position& pos );
-    ~Marker();
+    Rook( const View::Position& pos );
+    ~Rook();
 
     virtual void draw();
     virtual void createGeometry();

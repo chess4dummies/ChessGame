@@ -36,20 +36,39 @@ void makeBoard()
     //scene->addDrawElement(DrawElement::PAWN, p3 );    
 
     // Player 1
-    for (int i = 0; i < 8; i++)
+    for (int player = 0; player < NUM_PLAYERS; player++)
     {
-        const View::Position p(i, 1);
-        scene->addDrawElement(View::PAWN, p ); 
+        int pos = player == 0 ? 1 : 6;        
+        for (int i = 0; i < 8; i++)
+        {
+            const View::Position p(i, pos);
+            scene->addDrawElement(View::PAWN, p ); 
+        }
+
+        pos = (player == 0) ? (pos-1) : (pos+1);
+        const View::Position pRook1(0, pos);
+        scene->addDrawElement(View::ROOK, pRook1 );        
+        const View::Position pRook2(7, pos);
+        scene->addDrawElement(View::ROOK, pRook2 );
+
+        const View::Position pKnight1(1, pos);
+        scene->addDrawElement(View::KNIGHT, pKnight1 );        
+        const View::Position pKnight2(6, pos);
+        scene->addDrawElement(View::KNIGHT, pKnight2 );
+
+        const View::Position pBishop1(2, pos);
+        scene->addDrawElement(View::BISHOP, pBishop1 );        
+        const View::Position pBishop2(5, pos);
+        scene->addDrawElement(View::BISHOP, pBishop2 );
+
+        const View::Position pKing(4, pos);
+        scene->addDrawElement(View::KING, pKing );
+        
+        const View::Position pQueen(3, pos);
+        scene->addDrawElement(View::QUEEN, pQueen );
     }
 
-    // Player 2
-    for (int i = 0; i < 8; i++)
-    {
-        const View::Position p(i, 6);
-        scene->addDrawElement(View::PAWN, p ); 
-    }    
-
-    scene->highlightPosition(xPos, yPos);
+    scene->highlightPosition(xPos, yPos); // Marker
     scene->addDrawElement(View::BOARD, p3);
 }
 

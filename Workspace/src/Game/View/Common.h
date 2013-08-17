@@ -34,6 +34,7 @@
 #define HIGHLIGHT_ON     1.0f
 #define HIGHLIGHT_OFF    0.5f
 
+#define NUM_PLAYERS      2
 //#define ROTATION_ON
 
 // #define  CHECK_GL_ERROR \{
