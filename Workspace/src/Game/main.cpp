@@ -96,6 +96,27 @@ void idle()
     glutPostRedisplay();
 }
 
+
+void selectPiece(const int x, const int y)
+{
+    PieceInformation p( scene->getPieceInformation( xPos, yPos ) );
+    std::string pl = (p._player == PLAYER_1) ? "Player 1" : "Player 2";
+    std::cout << pl << " Selected: " << strList[p._piece] << std::endl ;
+
+    if ( p._piece != MARKER && !scene->checkToMove() )
+    {
+        scene->setSelectedPiece(p);
+    }
+    else if ( scene->checkToMove() )
+    {
+        scene->updatePosition(x, y); // Moves selected piece to (x, y)        
+    }
+    else
+    {
+        std::cout << "Please select a piece!" << std::endl;        
+    }
+}
+
 void keyb( unsigned char c, int , int )
 {
     switch (c) 
@@ -115,9 +136,7 @@ void keyb( unsigned char c, int , int )
         yPos = (yPos - 1) % 8;
         break;
     case 't':
-        PieceInformation p( scene->getPieceInformation( xPos, yPos ) );
-        std::string pl = (p._player == PLAYER_1) ? "Player 1" : "Player 2";
-        std::cout << pl << " Selected: " << strList[p._piece] << std::endl ;
+        selectPiece(xPos, yPos);
         break;
     }
     scene->highlightPosition(xPos, yPos);

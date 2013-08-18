@@ -7,6 +7,7 @@ using namespace std;
 
 View::Scene::Scene()
 {
+    _selectedPiece = NULL;
     _projectionMatrix = glm::transpose( glm::perspective(FOV_Y, ASPECT_RATIO ,1.0f ,100.0f) );
 
     const View::Position p(1, 1);
@@ -100,4 +101,36 @@ View::PieceInformation View::Scene::getPieceInformation( const int x, const int 
         PieceInformation p( (*itr)->getType(), Position(x, y), (*itr)->getPlayer() );
         return p;
     }
+
+    PieceInformation p( MARKER, Position(x, y), PLAYER_1 ); // return marker, and just say it's player 1's
+    return p;
+}
+
+
+void View::Scene::setSelectedPiece( const View::PieceInformation& piece )
+{ 
+    vector< View::DrawElement* >::iterator itr = find_if( _drawElementList.begin()+1, _drawElementList.end(), SelectFunctor(piece) );
+    if ( itr != _drawElementList.end() )
+    {
+        // This is the selected piece.
+        _selectedPiece = *itr;
+    }
+}
+
+void View::Scene::unSelectPiece()
+{
+    _selectedPiece = NULL;
+}
+
+// True if we can move.
+bool View::Scene::checkToMove() const
+{
+    return (_selectedPiece != NULL);
+}
+
+void View::Scene::updatePosition( const int x, const int y)
+{
+    assert(_selectedPiece);
+    _selectedPiece->updatePosition(x, y);
+    unSelectPiece();
 }

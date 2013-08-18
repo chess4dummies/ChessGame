@@ -24,7 +24,17 @@ public:
 
     PieceInformation getPieceInformation( const int x, const int y );
 
+    // Set the piece as selected. This needs to be moved.
+    void setSelectedPiece( const View::PieceInformation& piece ); 
+    void unSelectPiece();
 
+    // Doing controller stuff here! Move this out!
+    bool checkToMove() const;
+
+    void updatePosition( const int x, const int y );
+
+    // =======================================================================
+    //  Functors used with std::find_if. Where to move these to?
     class PieceFunctor
     {
     public:
@@ -44,13 +54,35 @@ public:
         int _y;
     };
 
+    class SelectFunctor
+    {
+    public:
+        SelectFunctor(const View::PieceInformation& piece):            
+        _piece(piece)
+        {
+            
+        }
+
+        bool operator() (const DrawElement* dr)
+        {
+            return    (dr->getType() == _piece._piece) && (dr->getPlayer() == _piece._player) 
+                   && (dr->getPosition()._x == _piece._pos._x)
+                   && (dr->getPosition()._y == _piece._pos._y);
+        }
+
+    private:
+        PieceInformation _piece;
+    };
+    // =======================================================================    
+
 private:
     void operator = ( const Scene& other ); // non-copyable
     void setHighlighting( const DrawElement* dr );
     
-    DrawElement*                _marker;    // marker separate from DE list
-    glm::mat4x4                 _viewMatrix;      // world  -> camera
-    glm::mat4x4                 _projectionMatrix;// camera -> clip
+    DrawElement* _selectedPiece;   // A reference to the piece;
+    DrawElement* _marker;          // marker separate from DE list
+    glm::mat4x4  _viewMatrix;      // world  -> camera
+    glm::mat4x4  _projectionMatrix;// camera -> clip
     std::vector< View::DrawElement* > _drawElementList;
 };
 
