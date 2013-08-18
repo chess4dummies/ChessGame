@@ -40,6 +40,7 @@ void View::Board::draw()
        
         glBindBuffer(GL_ARRAY_BUFFER, _vboID);
         glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
         glDisableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -47,60 +48,6 @@ void View::Board::draw()
         _textureList[0]->unUse();
         _textureList[1]->unUse();
       }
-     
-     // face right
-//      {
-//          _texture->use();
-//          _modelMatrix = glm::mat4x4(1.0); 
-//          _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.75f, 0.0f, -3.0f));
-//          _modelMatrix = glm::rotate(_modelMatrix, trans, glm::vec3(0.0f, 1.0f, 0.0f));
-//          //_modelMatrix = glm::scale(_modelMatrix, glm::vec3(0.2f, 1.0f, 1.0f));
-//          
-//          //_modelMatrix = glm::transpose(_modelMatrix);
-//  
-//          GLint texture_location = glGetUniformLocation(_shader.getShaderID(), "tex_");
-//          glUniform1i(texture_location, 0);
-//  
-//          GLint modelMatrixLoc = glGetUniformLocation(_shader.getShaderID(), "modelMatrix");
-//          glUniformMatrix4fv(modelMatrixLoc, 1, false, (float*)&_modelMatrix);
-//          glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-//          glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
-//      }
-// 
-//      // face left
-//       {
-//          _texture->use();
-//          _modelMatrix = glm::mat4x4(1.0); 
-//          _modelMatrix = glm::translate(_modelMatrix, glm::vec3(-0.75f, 0.0f, -3.0f));
-//          _modelMatrix = glm::rotate(_modelMatrix, trans, glm::vec3(0.0f, 1.0f, 0.0f));
-//          //_modelMatrix = glm::scale(_modelMatrix, glm::vec3(0.2f, 1.0f, 1.0f));
-// 
-//          //_modelMatrix = glm::transpose(_modelMatrix);
-// 
-//          GLint texture_location = glGetUniformLocation(_shader.getShaderID(), "tex_");
-//          glUniform1i(texture_location, 0);
-// 
-//          GLint modelMatrixLoc = glGetUniformLocation(_shader.getShaderID(), "modelMatrix");
-//          glUniformMatrix4fv(modelMatrixLoc, 1, false, (float*)&_modelMatrix);
-//          glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-//          glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
-//       }
-// 
-//      // face bottom
-//      {
-//           _texture->use();
-//           _modelMatrix = glm::mat4x4(1.0); 
-//           _modelMatrix = glm::translate(_modelMatrix, glm::vec3(0.0f, 0.0f, -5.0f));
-// 
-//           GLint texture_location = glGetUniformLocation(_shader.getShaderID(), "tex_");
-//           glUniform1i(texture_location, 0);
-// 
-//           GLint modelMatrixLoc = glGetUniformLocation(_shader.getShaderID(), "modelMatrix");
-//           glUniformMatrix4fv(modelMatrixLoc, 1, false, (float*)&_modelMatrix);
-//           glBindBuffer(GL_ARRAY_BUFFER, _vboID);
-//           glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
-//      }
-
 }
 
 void View::Board::createGeometry()
