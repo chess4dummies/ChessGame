@@ -108,6 +108,8 @@
     <ClCompile Include="..\src\Game\View\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Game\Controller\Controller.h" />
+    <ClInclude Include="..\src\Game\Controller\Piece.h" />
     <ClInclude Include="..\src\Game\View\Board.h" />
     <ClInclude Include="..\src\Game\View\Common.h" />
     <ClInclude Include="..\src\Game\View\DrawElement.h" />

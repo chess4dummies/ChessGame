@@ -19,6 +19,9 @@
     <Filter Include="View\Pieces">
       <UniqueIdentifier>{1746dd5f-1671-4eaf-acbe-75c90d68baa9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{c20dc37a-0add-41d3-bb11-236f72117004}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Game\main.cpp">
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="..\src\Game\View\Pieces\King.h">
       <Filter>View\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\Controller\Piece.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Game\Controller\Controller.h">
+      <Filter>Controller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
